@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 function App() {
   const [form, setForm] = useState({
@@ -6,6 +6,18 @@ function App() {
     description: "",
     date: "",
   });
+  const [transactions, setTransactions] = useState([]);
+
+  useEffect(() => {
+    getAllTransactions();
+  }, []);
+
+  const getAllTransactions = async () => {
+    let res = await fetch("http://localhost:4000/transactions");
+    res = await res.json();
+    setTransactions(res);
+    console.log(transactions);
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,8 +28,10 @@ function App() {
         "Content-type": "Application/json",
       },
     });
-    res = await res.json();
-    console.log(res);
+    if (res.ok) {
+      setForm({ amount: 0, description: "", date: "" });
+      getAllTransactions();
+    }
   };
 
   function handleInput(e) {
@@ -48,6 +62,27 @@ function App() {
         />
         <button type="submit"> Submit</button>
       </form>
+      <br />
+      <section>
+        <table>
+          <thead>
+            <tr>
+              <th>Amount</th>
+              <th>Description</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transactions.map((item, index) => (
+              <tr key={item._id}>
+                <td>{item.amount}</td>
+                <td>{item.description}</td>
+                <td>{item.date}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
     </div>
   );
 }
