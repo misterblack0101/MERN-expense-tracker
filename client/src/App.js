@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-
+import Appbar from "./components/AppBar.js";
+import TransactionForm from "./components/TransactionForm.js";
 function App() {
   const [form, setForm] = useState({
     amount: 0,
@@ -39,6 +40,7 @@ function App() {
   }
   return (
     <div>
+      <Appbar />
       <form onSubmit={handleSubmit}>
         <input
           type="number"
@@ -63,6 +65,7 @@ function App() {
         <button type="submit"> Submit</button>
       </form>
       <br />
+      <TransactionForm />
       <section>
         <table>
           <thead>
