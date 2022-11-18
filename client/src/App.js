@@ -2,11 +2,6 @@ import { useState, useEffect } from "react";
 import Appbar from "./components/AppBar.js";
 import TransactionForm from "./components/TransactionForm.js";
 function App() {
-  const [form, setForm] = useState({
-    amount: 0,
-    description: "",
-    date: "",
-  });
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
@@ -20,52 +15,12 @@ function App() {
     console.log(transactions);
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let res = await fetch("http://localhost:4000/transaction", {
-      method: "POST",
-      body: JSON.stringify(form),
-      headers: {
-        "Content-type": "Application/json",
-      },
-    });
-    if (res.ok) {
-      setForm({ amount: 0, description: "", date: "" });
-      getAllTransactions();
-    }
-  };
-
-  function handleInput(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  }
   return (
     <div>
       <Appbar />
-      <form onSubmit={handleSubmit}>
-        <input
-          type="number"
-          name="amount"
-          onChange={handleInput}
-          value={form.amount}
-          placeholder="Enter transaction amount"
-        />
-        <input
-          type="text"
-          name="description"
-          value={form.description}
-          onChange={handleInput}
-          placeholder="Enter transaction details"
-        />
-        <input
-          type="date"
-          name="date"
-          onChange={handleInput}
-          value={form.date}
-        />
-        <button type="submit"> Submit</button>
-      </form>
+
       <br />
-      <TransactionForm />
+      <TransactionForm getAllTransactions={getAllTransactions} />
       <section>
         <table>
           <thead>
