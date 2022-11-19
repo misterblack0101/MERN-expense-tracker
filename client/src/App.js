@@ -14,13 +14,6 @@ function App() {
   const getAllTransactions = async () => {
     let res = await fetch("http://localhost:4000/transactions");
     res = await res.json();
-    // const date =
-    //   res.date.getDate() +
-    //   "-" +
-    //   parseInt(res.date.getMonth() + 1) +
-    //   "-" +
-    //   res.date.getFullYear();
-    // res = { ...res, date: date };
     setTransactions(res);
   };
   return (
@@ -29,7 +22,10 @@ function App() {
       <br />
       <Container fixed>
         <TransactionForm getAllTransactions={getAllTransactions} />
-        <TransactionTable transactionsList={transactions} />
+        <TransactionTable
+          transactionsList={transactions}
+          getAllTransactions={getAllTransactions}
+        />
       </Container>
     </div>
   );

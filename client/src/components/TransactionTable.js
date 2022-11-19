@@ -8,6 +8,9 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
+import EditRoundedIcon from "@mui/icons-material/EditRounded";
+import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
+import IconButton from "@mui/material/IconButton";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,7 +36,19 @@ function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
-export default function TransactionTable({ transactionsList }) {
+export default function TransactionTable({
+  transactionsList,
+  getAllTransactions,
+}) {
+  const remove = async (id) => {
+    if (!window.confirm("Are you sure?")) return;
+    let res = await fetch(`http://localhost:4000/transaction/${id}`, {
+      method: "Delete",
+    });
+
+    if (!res.ok) alert("Some error occured!");
+    getAllTransactions();
+  };
   return (
     <>
       <Typography
@@ -64,8 +79,12 @@ export default function TransactionTable({ transactionsList }) {
                 <StyledTableCell align="center">{item.amount}</StyledTableCell>
                 <StyledTableCell align="center">{item.date}</StyledTableCell>
                 <StyledTableCell align="center">
-                  <p>edit</p>
-                  <p>delete</p>
+                  <IconButton color="primary">
+                    <EditRoundedIcon />
+                  </IconButton>
+                  <IconButton color="warning" onClick={() => remove(item._id)}>
+                    <DeleteRoundedIcon />
+                  </IconButton>
                 </StyledTableCell>
               </StyledTableRow>
             ))}

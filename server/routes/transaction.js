@@ -1,4 +1,4 @@
-const { Router } = require("express");
+const { Router, response } = require("express");
 const Transaction = require("../models/transaction.js");
 
 const router = Router();
@@ -14,4 +14,8 @@ router.get("/transactions", async (req, res) => {
   res.send(result);
 });
 
+router.delete("/transaction/:id", async (req, res) => {
+  const result = await Transaction.deleteOne({ _id: req.params.id });
+  res.send(result);
+});
 module.exports = router;
