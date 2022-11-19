@@ -53,6 +53,7 @@ export default function TransactionForm({ getAllTransactions }) {
             value={form.amount}
             name="amount"
             onChange={handleInput}
+            type="number"
           />
           <TextField
             sx={{ margin: "10px" }}

@@ -1,6 +1,9 @@
-import { useState, useEffect } from "react";
 import Appbar from "./components/AppBar.js";
 import TransactionForm from "./components/TransactionForm.js";
+import TransactionTable from "./components/TransactionTable.js";
+import { useState, useEffect } from "react";
+import Container from "@mui/material/Container";
+
 function App() {
   const [transactions, setTransactions] = useState([]);
 
@@ -11,36 +14,23 @@ function App() {
   const getAllTransactions = async () => {
     let res = await fetch("http://localhost:4000/transactions");
     res = await res.json();
+    // const date =
+    //   res.date.getDate() +
+    //   "-" +
+    //   parseInt(res.date.getMonth() + 1) +
+    //   "-" +
+    //   res.date.getFullYear();
+    // res = { ...res, date: date };
     setTransactions(res);
-    console.log(transactions);
   };
-
   return (
     <div>
       <Appbar />
-
       <br />
-      <TransactionForm getAllTransactions={getAllTransactions} />
-      <section>
-        <table>
-          <thead>
-            <tr>
-              <th>Amount</th>
-              <th>Description</th>
-              <th>Date</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactions.map((item, index) => (
-              <tr key={item._id}>
-                <td>{item.amount}</td>
-                <td>{item.description}</td>
-                <td>{item.date}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </section>
+      <Container fixed>
+        <TransactionForm getAllTransactions={getAllTransactions} />
+        <TransactionTable transactionsList={transactions} />
+      </Container>
     </div>
   );
 }
