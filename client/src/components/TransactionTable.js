@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import IconButton from "@mui/material/IconButton";
+import dayjs from "dayjs";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -36,9 +37,14 @@ function createData(name, calories, fat, carbs, protein) {
   return { name, calories, fat, carbs, protein };
 }
 
+const formatDate = (date) => {
+  return dayjs(date).format("DD MMM, YYYY");
+};
+
 export default function TransactionTable({
   transactionsList,
   getAllTransactions,
+  setEditTX,
 }) {
   const remove = async (id) => {
     if (!window.confirm("Are you sure?")) return;
@@ -77,9 +83,11 @@ export default function TransactionTable({
                   {item.description}
                 </StyledTableCell>
                 <StyledTableCell align="center">{item.amount}</StyledTableCell>
-                <StyledTableCell align="center">{item.date}</StyledTableCell>
                 <StyledTableCell align="center">
-                  <IconButton color="primary">
+                  {formatDate(item.date)}
+                </StyledTableCell>
+                <StyledTableCell align="center">
+                  <IconButton color="primary" onClick={() => setEditTX(item)}>
                     <EditRoundedIcon />
                   </IconButton>
                   <IconButton color="warning" onClick={() => remove(item._id)}>
