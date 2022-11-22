@@ -14,15 +14,28 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 const theme = createTheme();
 
 export default function Register() {
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const userData = {
       firstName: data.get("firstName"),
       lastName: data.get("lastName"),
       email: data.get("email"),
       password: data.get("password"),
+    };
+    let res = await fetch("http://localhost:4000/register", {
+      method: "post",
+      body: JSON.stringify(userData),
+      headers: {
+        "Content-type": "Application/json",
+      },
     });
+    if (res.status == 406) {
+      res = await res.json();
+      alert(res.message);
+    } else if (res.status == 201) {
+      alert("User created successfully");
+    }
   };
 
   return (
