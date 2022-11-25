@@ -3,24 +3,41 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import Cookie from "js-cookie";
 
 const theme = createTheme();
 
 export default function Login() {
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
+    const userData = {
       email: data.get("email"),
       password: data.get("password"),
+    };
+    let res = await fetch("http://localhost:4000/login", {
+      method: "post",
+      body: JSON.stringify(userData),
+      headers: {
+        "Content-type": "Application/json",
+      },
     });
+    if (res.ok) {
+      const { token } = await res.json();
+      Cookie.set("token", token);
+      navigate("/");
+    } else {
+      const { message } = await res.json();
+      alert(message);
+    }
   };
 
   return (
