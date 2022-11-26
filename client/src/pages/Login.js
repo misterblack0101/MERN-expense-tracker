@@ -23,7 +23,7 @@ export default function Login() {
       email: data.get("email"),
       password: data.get("password"),
     };
-    let res = await fetch("http://localhost:4000/login", {
+    let res = await fetch(`${process.env.REACT_APP_URL}/login`, {
       method: "post",
       body: JSON.stringify(userData),
       headers: {

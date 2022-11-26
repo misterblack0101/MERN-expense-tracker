@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-require("./config.js");
+require("./config/mongodb.js");
+require("dotenv").config();
 const TransactionRoutes = require("./routes/transaction.js");
 const AuthRoutes = require("./routes/authentication");
 const passport = require("passport");

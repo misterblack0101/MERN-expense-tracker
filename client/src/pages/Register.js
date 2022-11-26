@@ -25,7 +25,7 @@ export default function Register() {
       email: data.get("email"),
       password: data.get("password"),
     };
-    let res = await fetch("http://localhost:4000/register", {
+    let res = await fetch(`${process.env.REACT_APP_URL}/register`, {
       method: "post",
       body: JSON.stringify(userData),
       headers: {

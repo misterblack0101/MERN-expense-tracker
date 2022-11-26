@@ -35,9 +35,9 @@ router.post("/login", async (req, res) => {
   if (!correctPassword) {
     return res.status(406).send({ message: "User doesn't exist! " });
   }
-  var token = jwt.sign({ email, id: user._id }, "privateKey");
+  var token = jwt.sign({ email, id: user._id }, process.env.JWT_SECRET_KEY);
 
-  res.send({ message: "Logged in", token }); 
+  res.send({ message: "Logged in", token });
 });
 
 module.exports = router;

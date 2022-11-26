@@ -48,7 +48,7 @@ export default function TransactionTable({
 }) {
   const remove = async (id) => {
     if (!window.confirm("Are you sure?")) return;
-    let res = await fetch(`http://localhost:4000/transaction/${id}`, {
+    let res = await fetch(`${process.env.REACT_APP_URL}/transaction/${id}`, {
       method: "Delete",
     });
 

@@ -35,17 +35,20 @@ function TransactionForm({ getAllTransactions, editTx, setEditTx }) {
     }
   };
   const update = async () => {
-    return await fetch(`http://localhost:4000/transaction/${editTx._id}`, {
-      method: "PUT",
-      body: JSON.stringify(form),
-      headers: {
-        "Content-type": "Application/json",
-      },
-    });
+    return await fetch(
+      `${process.env.REACT_APP_URL}/transaction/${editTx._id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(form),
+        headers: {
+          "Content-type": "Application/json",
+        },
+      }
+    );
   };
 
   const submit = async () => {
-    return await fetch("http://localhost:4000/transaction", {
+    return await fetch(`${process.env.REACT_APP_URL}/transaction`, {
       method: "POST",
       body: JSON.stringify(form),
       headers: {
