@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { TransactionForm, initialForm } from "../components/TransactionForm.js";
 import TransactionTable from "../components/TransactionTable.js";
 import Container from "@mui/material/Container";
+import Cookie from "js-cookie";
 
 function Home() {
   const [transactions, setTransactions] = useState([]);
@@ -13,7 +14,13 @@ function Home() {
   }, []);
 
   const getAllTransactions = async () => {
-    let res = await fetch("http://localhost:4000/transactions");
+    const token = Cookie.get("token");
+
+    let res = await fetch("http://localhost:4000/transactions", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     res = await res.json();
     setTransactions(res);
   };
