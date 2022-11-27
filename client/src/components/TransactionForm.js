@@ -8,6 +8,8 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Button from "@mui/material/Button";
+import Cookie from "js-cookie";
+
 
 const initialForm = {
   amount: 0,
@@ -16,6 +18,7 @@ const initialForm = {
 };
 
 function TransactionForm({ getAllTransactions, editTx, setEditTx }) {
+  const token = Cookie.get("token");
   const [form, setForm] = useState(initialForm);
 
   useEffect(() => {
@@ -41,6 +44,7 @@ function TransactionForm({ getAllTransactions, editTx, setEditTx }) {
         method: "PUT",
         body: JSON.stringify(form),
         headers: {
+          Authorization: `Bearer ${token}`,
           "Content-type": "Application/json",
         },
       }
@@ -52,6 +56,7 @@ function TransactionForm({ getAllTransactions, editTx, setEditTx }) {
       method: "POST",
       body: JSON.stringify(form),
       headers: {
+        Authorization: `Bearer ${token}`,
         "Content-type": "Application/json",
       },
     });

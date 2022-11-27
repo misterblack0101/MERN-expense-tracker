@@ -12,6 +12,7 @@ import EditRoundedIcon from "@mui/icons-material/EditRounded";
 import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import IconButton from "@mui/material/IconButton";
 import dayjs from "dayjs";
+import Cookies from "js-cookie";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -33,10 +34,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
-
 const formatDate = (date) => {
   return dayjs(date).format("DD MMM, YYYY");
 };
@@ -46,10 +43,12 @@ export default function TransactionTable({
   getAllTransactions,
   setEditTX,
 }) {
+  const token = Cookies.get("token");
   const remove = async (id) => {
     if (!window.confirm("Are you sure?")) return;
     let res = await fetch(`${process.env.REACT_APP_URL}/transaction/${id}`, {
       method: "Delete",
+      headers: { Authorization: `Bearer ${token}` },
     });
 
     if (!res.ok) alert("Some error occured!");
