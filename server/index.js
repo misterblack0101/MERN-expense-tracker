@@ -17,11 +17,7 @@ passportConfig(passport);
 app.get("/", (req, res) => {
   res.send("GET request to the homepage");
 });
-app.use(
-  "/transaction",
-  passport.authenticate("jwt", { session: false }),
-  TransactionRoutes
-);
+app.use("/transaction", TransactionRoutes);
 app.use("/auth", AuthRoutes);
 app.use("/user", UserRoutes);
 
