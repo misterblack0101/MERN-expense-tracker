@@ -9,17 +9,21 @@ import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import Button from "@mui/material/Button";
 import Cookie from "js-cookie";
-
+import Autocomplete from "@mui/material/Autocomplete";
+import { Box } from "@mui/material";
+import { useSelector } from "react-redux";
 
 const initialForm = {
   amount: 0,
   description: "",
   date: new Date(),
+  categoryId: "",
 };
 
 function TransactionForm({ getAllTransactions, editTx, setEditTx }) {
   const token = Cookie.get("token");
   const [form, setForm] = useState(initialForm);
+  const { categories } = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     if (editTx != initialForm) {
@@ -74,7 +78,7 @@ function TransactionForm({ getAllTransactions, editTx, setEditTx }) {
     <Card sx={{ minWidth: 275, marginTop: "20px" }}>
       <CardContent>
         <Typography variant="h5">Add New Transaction</Typography>
-        <form onSubmit={handleSubmit}>
+        <Box component="form" onSubmit={handleSubmit} sx={{ display: "flex" }}>
           <TextField
             sx={{ margin: "10px" }}
             size="small"
@@ -108,6 +112,22 @@ function TransactionForm({ getAllTransactions, editTx, setEditTx }) {
               onChange={handleDate}
             />
           </LocalizationProvider>
+          <Autocomplete
+            onChange={(event, newValue) => {
+              setForm({ ...form, categoryId: newValue._id });
+            }}
+            options={categories}
+            id="combo-box-demo"
+            sx={{ width: 250, margin: "10px" }}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                label="Category"
+                size="small"
+                value={form.categoryId}
+              />
+            )}
+          />
           {editTx == initialForm && (
             <Button type="submit" variant="contained" sx={{ margin: "10px" }}>
               Submit
@@ -118,7 +138,7 @@ function TransactionForm({ getAllTransactions, editTx, setEditTx }) {
               Update
             </Button>
           )}
-        </form>
+        </Box>
       </CardContent>
     </Card>
   );

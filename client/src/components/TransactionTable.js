@@ -13,6 +13,7 @@ import DeleteRoundedIcon from "@mui/icons-material/DeleteRounded";
 import IconButton from "@mui/material/IconButton";
 import dayjs from "dayjs";
 import Cookies from "js-cookie";
+import { useSelector } from "react-redux";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -54,6 +55,13 @@ export default function TransactionTable({
     if (!res.ok) alert("Some error occured!");
     getAllTransactions();
   };
+  const categories = useSelector((state) => state.auth.user.categories);
+
+  const getCategoryName = (categoryId) => {
+    const category = categories.find((category) => category._id === categoryId);
+    return category ? category.label : "NA";
+  };
+
   return (
     <>
       <Typography
@@ -71,6 +79,7 @@ export default function TransactionTable({
             <TableRow>
               <StyledTableCell>Description</StyledTableCell>
               <StyledTableCell align="center">Amount</StyledTableCell>
+              <StyledTableCell align="center">Category</StyledTableCell>
               <StyledTableCell align="center">Date</StyledTableCell>
               <StyledTableCell align="center">Action</StyledTableCell>
             </TableRow>
@@ -82,6 +91,9 @@ export default function TransactionTable({
                   {item.description}
                 </StyledTableCell>
                 <StyledTableCell align="center">{item.amount}</StyledTableCell>
+                <StyledTableCell align="center">
+                  {getCategoryName(item.categoryId)}
+                </StyledTableCell>
                 <StyledTableCell align="center">
                   {formatDate(item.date)}
                 </StyledTableCell>

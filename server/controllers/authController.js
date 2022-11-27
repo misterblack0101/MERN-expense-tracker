@@ -12,11 +12,22 @@ const register = async (req, res) => {
       .send({ message: "User with same email already exists" });
   }
 
+  const categories = [
+    { label: "Miscellaneous", icon: "user" },
+    { label: "Travel", icon: "user" },
+    { label: "Shopping", icon: "user" },
+    { label: "Food", icon: "user" },
+  ];
+
   //  hashing password
   const salt = await bcrypt.genSaltSync(10);
   const hashedPassword = await bcrypt.hashSync(password, salt);
 
-  const tx = new User({ ...req.body, password: hashedPassword });
+  const tx = new User({
+    ...req.body,
+    password: hashedPassword,
+    categories: categories,
+  });
   tx.save()
     .then((result) => res.status(201).send(result))
     .catch((err) => res.status(406).send({ message: err.message }));

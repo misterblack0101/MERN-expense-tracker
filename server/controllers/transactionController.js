@@ -10,7 +10,10 @@ const index = async (req, res) => {
 };
 
 const create = async (req, res) => {
-  const tx = new Transaction({ ...req.body, userId: req.user._id });
+  const tx = new Transaction({
+    ...req.body,
+    userId: req.user._id,
+  });
   const result = await tx.save();
   res.send(successResponse);
 };
