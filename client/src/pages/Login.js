@@ -11,11 +11,15 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Cookie from "js-cookie";
+import { useDispatch } from "react-redux";
+import { getUser } from "../store/auth.js";
 
 const theme = createTheme();
 
 export default function Login() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -23,7 +27,7 @@ export default function Login() {
       email: data.get("email"),
       password: data.get("password"),
     };
-    let res = await fetch(`${process.env.REACT_APP_URL}/login`, {
+    let res = await fetch(`${process.env.REACT_APP_URL}/auth/login`, {
       method: "post",
       body: JSON.stringify(userData),
       headers: {
@@ -33,6 +37,7 @@ export default function Login() {
     if (res.ok) {
       const { token } = await res.json();
       Cookie.set("token", token);
+      dispatch(getUser(res.user));
       navigate("/");
     } else {
       const { message } = await res.json();
