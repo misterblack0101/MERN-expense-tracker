@@ -2,7 +2,7 @@ import Appbar from "./components/AppBar.js";
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { getUser } from "./store/auth.js";
+import { setUser } from "./store/auth.js";
 import Cookie from "js-cookie";
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
     // if invalid,go to login page
     if (res.ok) {
       res = await res.json();
-      dispatch(getUser(res.user));
+      dispatch(setUser(res.user));
     }
     setisLoading(false);
   };

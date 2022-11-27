@@ -12,7 +12,7 @@ import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Cookie from "js-cookie";
 import { useDispatch } from "react-redux";
-import { getUser } from "../store/auth.js";
+import { setUser } from "../store/auth.js";
 
 const theme = createTheme();
 
@@ -37,7 +37,7 @@ export default function Login() {
     if (res.ok) {
       const { token } = await res.json();
       Cookie.set("token", token);
-      dispatch(getUser(res.user));
+      dispatch(setUser(res.user));
       navigate("/");
     } else {
       const { message } = await res.json();
