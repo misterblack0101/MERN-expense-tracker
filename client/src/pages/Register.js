@@ -25,17 +25,17 @@ export default function Register() {
       email: data.get("email"),
       password: data.get("password"),
     };
-    let res = await fetch(`${process.env.REACT_APP_URL}/register`, {
+    let res = await fetch(`${process.env.REACT_APP_URL}/auth/register`, {
       method: "post",
       body: JSON.stringify(userData),
       headers: {
         "Content-type": "Application/json",
       },
     });
-    if (res.status == 406) {
+    if (res.status === 406) {
       res = await res.json();
       alert(res.message);
-    } else if (res.status == 201) {
+    } else if (res.status === 201) {
       navigate("/login");
     }
   };
