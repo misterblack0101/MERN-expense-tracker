@@ -1,4 +1,4 @@
-const { Router, response } = require("express");
+const { Router } = require("express");
 const User = require("../models/user.js");
 const router = Router();
 const bcrypt = require("bcrypt");
@@ -35,8 +35,8 @@ router.post("/login", async (req, res) => {
   if (!correctPassword) {
     return res.status(406).send({ message: "User doesn't exist! " });
   }
-  var token = jwt.sign({ email, id: user._id }, process.env.JWT_SECRET_KEY);
-
+  const payload = { username: email, id: user._id };
+  var token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
   res.send({ message: "Logged in", token });
 });
 
