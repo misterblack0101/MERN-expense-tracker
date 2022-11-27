@@ -15,6 +15,8 @@ import { Container } from "@mui/material";
 import Cookies from "js-cookie";
 import { useSelector, useDispatch } from "react-redux";
 import { setUser } from "../store/auth.js";
+import { CategoryForm, initialForm } from "../components/CategoryForm.js";
+import { useState } from "react";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -37,6 +39,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 export default function CategoryTable() {
+  const [editCategory, setEditCategory] = useState(initialForm);
   const token = Cookies.get("token");
   const dispatch = useDispatch();
   const categories = useSelector((state) => state.auth.user.categories);
@@ -60,13 +63,13 @@ export default function CategoryTable() {
     }
   };
 
-  //   const getCategoryName = (categoryId) => {
-  //     const category = categories.find((category) => category._id === categoryId);
-  //     return category ? category.label : "NA";
-  //   };
+  const edit = (id) => {
+    setEditCategory(categories.find((cat) => cat._id == id));
+  };
 
   return (
     <Container>
+      <CategoryForm edit={editCategory} setEdit={setEditCategory} />
       <Typography
         variant="h5"
         paddingLeft={"15px"}
@@ -93,7 +96,7 @@ export default function CategoryTable() {
                 </StyledTableCell>
                 <StyledTableCell align="center">{item.icon}</StyledTableCell>
                 <StyledTableCell align="center">
-                  <IconButton color="primary">
+                  <IconButton color="primary" onClick={() => edit(item._id)}>
                     <EditRoundedIcon />
                   </IconButton>
                   <IconButton color="warning" onClick={() => remove(item._id)}>
