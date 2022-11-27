@@ -46,9 +46,16 @@ export default function Appbar() {
             </>
           )}
           {isAuthenticated && (
-            <Button color="inherit" className="text-white" onClick={logout}>
-              Logout
-            </Button>
+            <>
+              <Button color="inherit">
+                <Link to={"/categories"} className="text-white">
+                  Categories
+                </Link>
+              </Button>
+              <Button color="inherit" className="text-white" onClick={logout}>
+                Logout
+              </Button>
+            </>
           )}
         </Toolbar>
       </AppBar>

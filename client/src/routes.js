@@ -5,6 +5,7 @@ import Home from "./pages/Home.js";
 import Register from "./pages/Register";
 import CheckAuth from "./utils/checkAuth";
 import CheckGuest from "./utils/checkGuest";
+import Categories from "./pages/Categories";
 
 export default createBrowserRouter([
   {
@@ -33,6 +34,14 @@ export default createBrowserRouter([
           <CheckGuest>
             <Register />
           </CheckGuest>
+        ),
+      },
+      {
+        path: "/categories",
+        element: (
+          <CheckAuth>
+            <Categories />
+          </CheckAuth>
         ),
       },
     ],
